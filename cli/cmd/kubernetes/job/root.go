@@ -8,8 +8,8 @@ import (
 	batchv1 "k8s.io/api/batch/v1"
 	apiv1 "k8s.io/api/core/v1"
 
-	"github.com/VerizonMedia/kubectl-flame/api"
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/data"
+	"github.com/adesaegher/kubectl-flame/api"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/data"
 )
 
 const (

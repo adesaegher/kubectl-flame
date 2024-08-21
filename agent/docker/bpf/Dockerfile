@@ -3,8 +3,8 @@ ARG KERNEL_VERSION=4.9.125
 FROM linuxkit/kernel:$KERNEL_VERSION AS ksrc
 
 FROM golang:1.14-buster as agentbuild
-WORKDIR /go/src/github.com/VerizonMedia/kubectl-flame
-ADD . /go/src/github.com/VerizonMedia/kubectl-flame
+WORKDIR /go/src/github.com/adesaegher/kubectl-flame
+ADD . /go/src/github.com/adesaegher/kubectl-flame
 RUN go get -d -v ./...
 RUN cd agent && go build -o /go/bin/agent
 

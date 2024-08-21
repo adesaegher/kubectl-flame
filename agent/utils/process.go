@@ -3,8 +3,8 @@ package utils
 import (
 	"bufio"
 	"errors"
-	"github.com/VerizonMedia/kubectl-flame/agent/details"
-	"github.com/VerizonMedia/kubectl-flame/api"
+	"github.com/adesaegher/kubectl-flame/agent/details"
+	"github.com/adesaegher/kubectl-flame/api"
 	"github.com/fntlnz/mountinfo"
 	"io"
 	"os"

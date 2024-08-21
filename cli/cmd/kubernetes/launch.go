@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/kubernetes/job"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/kubernetes/job"
 
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/data"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/data"
 	batchv1 "k8s.io/api/batch/v1"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
