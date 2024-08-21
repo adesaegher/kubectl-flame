@@ -30,18 +30,18 @@ jobs:
         file: agent/docker/bpf/Dockerfile
         push: true
         tags: desaegher/kubectl-flame:${{ steps.vars.outputs.tag }}-bpf
-    - name: Build Python Docker Image
-      uses: docker/build-push-action@v6
-      with:
-        context: "{{defaultContext}}:agent/docker/python"
-        push: true
-        tags: desaegher/kubectl-flame:${{ steps.vars.outputs.tag }}-python
-    - name: Build Ruby Docker Image
-      uses: docker/build-push-action@v6
-      with:
-        context: "{{defaultContext}}:agent/docker/ruby"
-        push: true
-        tags: desaegher/kubectl-flame:${{ steps.vars.outputs.tag }}-ruby
+    # - name: Build Python Docker Image
+    #   uses: docker/build-push-action@v6
+    #   with:
+    #     context: "{{defaultContext}}:agent/docker/python"
+    #     push: true
+    #     tags: desaegher/kubectl-flame:${{ steps.vars.outputs.tag }}-python
+    # - name: Build Ruby Docker Image
+    #   uses: docker/build-push-action@v6
+    #   with:
+    #     context: "{{defaultContext}}:agent/docker/ruby"
+    #     push: true
+    #     tags: desaegher/kubectl-flame:${{ steps.vars.outputs.tag }}-ruby
     - name: Build perf Docker Image
       uses: docker/build-push-action@v6
       with:
