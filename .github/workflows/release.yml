@@ -56,8 +56,9 @@ jobs:
     - name: GoReleaser
       uses: goreleaser/goreleaser-action@v6
       with:
+        distribution: goreleaser
         version: '~> v2'
-        args: release --clean
+        # args: release --clean
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
     - name: Update new version in krew-index
