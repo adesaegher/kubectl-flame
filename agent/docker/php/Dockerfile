@@ -10,7 +10,7 @@ RUN apk update && \
     git \
     make \
     gcc \
-    libc6-dev \
+    libc-dev \
     lsof \
     strace \
     procps
