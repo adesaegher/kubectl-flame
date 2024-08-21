@@ -68,7 +68,7 @@ func (p *phpCreator) create(targetPod *apiv1.Pod, cfg *data.FlameConfig) (string
 		Spec: batchv1.JobSpec{
 			Parallelism:             int32Ptr(1),
 			Completions:             int32Ptr(1),
-			TTLSecondsAfterFinished: int32Ptr(5),
+			TTLSecondsAfterFinished: int32Ptr(300),
 			BackoffLimit:            int32Ptr(2),
 			Template: apiv1.PodTemplateSpec{
 				ObjectMeta: commonMeta,
@@ -92,7 +92,7 @@ func (p *phpCreator) create(targetPod *apiv1.Pod, cfg *data.FlameConfig) (string
 							Name:            ContainerName,
 							Image:           imageName,
 							Command:         []string{"/app/agent"},
-							Args:            []string{ '-c', strings.Join(args[:], " ")}
+							Args:            args,
 							VolumeMounts: []apiv1.VolumeMount{
 								{
 									Name:      "target-filesystem",
