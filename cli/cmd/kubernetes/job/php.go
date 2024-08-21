@@ -2,6 +2,7 @@ package job
 
 import (
 	"fmt"
+	"strings"
 
 	batchv1 "k8s.io/api/batch/v1"
 	apiv1 "k8s.io/api/core/v1"
@@ -91,7 +92,7 @@ func (p *phpCreator) create(targetPod *apiv1.Pod, cfg *data.FlameConfig) (string
 							Name:            ContainerName,
 							Image:           imageName,
 							Command:         []string{"/app/agent"},
-							Args:            args,
+							Args:            []string{ '-c', strings.Join(args[:], " ")}
 							VolumeMounts: []apiv1.VolumeMount{
 								{
 									Name:      "target-filesystem",
