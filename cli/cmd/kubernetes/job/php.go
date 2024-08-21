@@ -2,7 +2,6 @@ package job
 
 import (
 	"fmt"
-	"strings"
 
 	batchv1 "k8s.io/api/batch/v1"
 	apiv1 "k8s.io/api/core/v1"
