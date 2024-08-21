@@ -17,12 +17,12 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_HUB_USER }}
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-    - name: Build JVM Docker Image
-      uses: docker/build-push-action@v6
-      with:
-        context: "{{defaultContext}}:agent/docker/jvm"
-        push: true
-        tags: desaegher/kubectl-flame:${{ steps.vars.outputs.tag }}-jvm
+    # - name: Build JVM Docker Image
+    #   uses: docker/build-push-action@v6
+    #   with:
+    #     context: "{{defaultContext}}:agent/docker/jvm"
+    #     push: true
+    #     tags: desaegher/kubectl-flame:${{ steps.vars.outputs.tag }}-jvm
     - name: Build BPF Docker Image
       uses: docker/build-push-action@v6
       with:
