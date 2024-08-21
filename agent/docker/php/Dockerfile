@@ -14,11 +14,11 @@ RUN apk update && \
     lsof \
     strace \
     procps
-RUN git clone https://github.com/adsr/phpspy.git && cd phpspy && make && cp phpspy /
+RUN git clone https://github.com/adsr/phpspy.git && cd phpspy && make
 
 FROM python:3.8-alpine
 RUN mkdir /app
 COPY --from=agentbuild /go/bin/agent /app/agent
-COPY --from=phpspybuild /phpspy /app/phpspy
+COPY --from=phpspybuild /phpspy/phpspy /app/phpspy
 
 CMD [ "/app/agent" ]
