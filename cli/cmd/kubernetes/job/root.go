@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	baseImageName = "verizondigital/kubectl-flame"
+	baseImageName = "desaegher/kubectl-flame"
 	ContainerName = "kubectl-flame"
 )
 

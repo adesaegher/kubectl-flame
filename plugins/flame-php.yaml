@@ -1,0 +1,61 @@
+apiVersion: krew.googlecontainertools.github.com/v1alpha2
+kind: Plugin
+metadata:
+  name: flame
+spec:
+  homepage: https://github.com/adesaegher/kubectl-flame
+  shortDescription: Generate CPU flame graphs from pods
+  version: v1.0.1
+  description: |
+    Generate CPU flame graphs without restarting pods and with low overhead.
+  caveats: |
+    Currently supported languages: Go, Java (any JVM based language), Python, Ruby, and NodeJS.
+  platforms:
+    - uri: https://github.com/adesaegher/kubectl-flame/releases/download/v1.0.1/kubectl-flame_v1.0.1_darwin_x86_64.tar.gz
+      sha256: f52a63f05855d4d9f9111d7f527590ef1e6aa3a3cb1246294370d33e37dc344d
+      bin: kubectl-flame
+      files:
+        - from: kubectl-flame
+          to: .
+        - from: LICENSE
+          to: .
+      selector:
+        matchLabels:
+          os: darwin
+          arch: amd64
+    - uri: https://github.com/adesaegher/kubectl-flame/releases/download/v1.0.1/kubectl-flame_v1.0.1_linux_x86_64.tar.gz
+      sha256: 5c23335b3087006d051ce09c7637adcf2e3ccccd0478dc8e6e03d90649425b9e
+      bin: kubectl-flame
+      files:
+        - from: kubectl-flame
+          to: .
+        - from: LICENSE
+          to: .
+      selector:
+        matchLabels:
+          os: linux
+          arch: amd64
+    - uri: https://github.com/adesaegher/kubectl-flame/releases/download/v1.0.1/kubectl-flame_v1.0.1_linux_arm64.tar.gz
+      sha256: 53e73e1a356cc624d88c80c0fea62e87535c1131ccd81d031461c01cad2cc85a
+      bin: kubectl-flame
+      files:
+        - from: kubectl-flame
+          to: .
+        - from: LICENSE
+          to: .
+      selector:
+        matchLabels:
+          os: linux
+          arch: arm64
+    - uri: https://github.com/adesaegher/kubectl-flame/releases/download/v1.0.1/kubectl-flame_v1.0.1_windows_x86_64.zip
+      sha256: 1c7e91fce518a7adb818bd0d8cd356919dd306ac102133ce41d8cfd78ed63781
+      bin: kubectl-flame.exe
+      files:
+        - from: kubectl-flame.exe
+          to: .
+        - from: LICENSE
+          to: .
+      selector:
+        matchLabels:
+          os: windows
+          arch: amd64
