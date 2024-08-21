@@ -30,11 +30,11 @@ jobs:
         file: agent/docker/bpf/Dockerfile
         push: true
         tags: desaegher/kubectl-flame:${{ steps.vars.outputs.tag }}-bpf
-    - name: Build Python Docker Image
-      uses: docker/build-push-action@v6
-      with:
-        context: "{{defaultContext}}:."
-        file: agent/docker/python/Dockerfile
+    # - name: Build Python Docker Image
+    #   uses: docker/build-push-action@v6
+    #   with:
+    #     context: "{{defaultContext}}:."
+    #     file: agent/docker/python/Dockerfile
     - name: Build perf Docker Image
       uses: docker/build-push-action@v6
       with:
@@ -57,7 +57,7 @@ jobs:
       uses: goreleaser/goreleaser-action@v6
       with:
         distribution: goreleaser
-        version: 2
+        version: '~> v2'
         args: release --clean
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
