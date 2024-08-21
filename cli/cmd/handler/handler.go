@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/VerizonMedia/kubectl-flame/api"
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/data"
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/kubernetes"
+	"github.com/adesaegher/kubectl-flame/api"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/data"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/kubernetes"
 	batchv1 "k8s.io/api/batch/v1"
 )
 

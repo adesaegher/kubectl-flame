@@ -10,8 +10,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/uuid"
 
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/data"
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/version"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/data"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/version"
 )
 
 type bpfCreator struct{}
@@ -117,6 +117,11 @@ func (b *bpfCreator) create(targetPod *apiv1.Pod, cfg *data.FlameConfig) (string
 					},
 					RestartPolicy: "Never",
 					NodeName:      targetPod.Spec.NodeName,
+					Tolerations: []apiv1.Toleration{
+						{
+						Operator: "Exists", 
+						},
+					},
 				},
 			},
 		},

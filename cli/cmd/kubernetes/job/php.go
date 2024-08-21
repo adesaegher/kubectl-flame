@@ -8,8 +8,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/uuid"
 
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/data"
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/version"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/data"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/version"
 )
 
 type phpCreator struct{}
@@ -67,7 +67,7 @@ func (p *phpCreator) create(targetPod *apiv1.Pod, cfg *data.FlameConfig) (string
 		Spec: batchv1.JobSpec{
 			Parallelism:             int32Ptr(1),
 			Completions:             int32Ptr(1),
-			TTLSecondsAfterFinished: int32Ptr(5),
+			TTLSecondsAfterFinished: int32Ptr(300),
 			BackoffLimit:            int32Ptr(2),
 			Template: apiv1.PodTemplateSpec{
 				ObjectMeta: commonMeta,
@@ -109,6 +109,11 @@ func (p *phpCreator) create(targetPod *apiv1.Pod, cfg *data.FlameConfig) (string
 					},
 					RestartPolicy: "Never",
 					NodeName:      targetPod.Spec.NodeName,
+					Tolerations: []apiv1.Toleration{
+						{
+						Operator: "Exists", 
+						},
+					},
 				},
 			},
 		},

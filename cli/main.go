@@ -5,7 +5,7 @@ package main
 import (
 	"os"
 
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd"
+	"github.com/adesaegher/kubectl-flame/cli/cmd"
 	"github.com/spf13/pflag"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 )

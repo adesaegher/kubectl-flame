@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/VerizonMedia/kubectl-flame/api"
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/data"
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/version"
+	"github.com/adesaegher/kubectl-flame/api"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/data"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/version"
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 )

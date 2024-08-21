@@ -1,3 +1,4 @@
+version: 2
 before:
   hooks:
     - go mod download
@@ -18,23 +19,18 @@ builds:
       - ppc64le
     goarm: [6, 7]
     ldflags: |
-      -X github.com/VerizonMedia/kubectl-flame/cli/cmd/version.semver={{ .Tag }}
-      -X github.com/VerizonMedia/kubectl-flame/cli/cmd/version.date={{ .Date }}
-      -X github.com/VerizonMedia/kubectl-flame/cli/cmd/version.commit={{ .Commit }}
+      -X github.com/adesaegher/kubectl-flame/cli/cmd/version.semver={{ .Tag }}
+      -X github.com/adesaegher/kubectl-flame/cli/cmd/version.date={{ .Date }}
+      -X github.com/adesaegher/kubectl-flame/cli/cmd/version.commit={{ .Commit }}
 archives:
   - id: kubectl-flame-archive
     name_template: |
-      kubectl-flame_{{ .Tag }}_{{ .Os }}_{{ .Arch -}}
-      {{- with .Arm -}}
-        {{- if (eq . "6") -}}hf
-        {{- else -}}v{{- . -}}
-        {{- end -}}
-      {{- end -}}
+      kubectl-flame_{{ .Tag }}_{{ .Os }}_{{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end -}}
     builds:
       - kubectl-flame
-    replacements:
-      386: i386
-      amd64: x86_64
     format_overrides:
       - goos: windows
         format: zip

@@ -1,17 +1,18 @@
 apiVersion: krew.googlecontainertools.github.com/v1alpha2
 kind: Plugin
 metadata:
-  name: flame
+  name: flame-php
 spec:
   homepage: https://github.com/adesaegher/kubectl-flame
   shortDescription: Generate CPU flame graphs from pods
-  version: {{ .TagName }}
+  version: v1.0.1
   description: |
     Generate CPU flame graphs without restarting pods and with low overhead.
   caveats: |
-    Currently supported languages: Go, Java (any JVM based language), Python, Ruby, and NodeJS.
+    Currently supported languages: PHP, Go, Java (any JVM based language), Python, Ruby, and NodeJS.
   platforms:
-    - {{addURIAndSha "https://github.com/adesaegher/kubectl-flame/releases/download/{{ .TagName }}/kubectl-flame_{{ .TagName }}_darwin_x86_64.tar.gz" .TagName | indent 6 }}
+    - uri: https://github.com/adesaegher/kubectl-flame/releases/download/v1.0.1/kubectl-flame_v1.0.1_darwin_x86_64.tar.gz
+      sha256: f52a63f05855d4d9f9111d7f527590ef1e6aa3a3cb1246294370d33e37dc344d
       bin: kubectl-flame
       files:
         - from: kubectl-flame
@@ -22,7 +23,8 @@ spec:
         matchLabels:
           os: darwin
           arch: amd64
-    - {{addURIAndSha "https://github.com/adesaegher/kubectl-flame/releases/download/{{ .TagName }}/kubectl-flame_{{ .TagName }}_linux_x86_64.tar.gz" .TagName | indent 6 }}
+    - uri: https://github.com/adesaegher/kubectl-flame/releases/download/v1.0.1/kubectl-flame_v1.0.1_linux_x86_64.tar.gz
+      sha256: b9620e11dd70559b6e617dbfadeeb39df44051e0b7d4dc509a285922b55a7a2f
       bin: kubectl-flame
       files:
         - from: kubectl-flame
@@ -33,7 +35,8 @@ spec:
         matchLabels:
           os: linux
           arch: amd64
-    - {{addURIAndSha "https://github.com/adesaegher/kubectl-flame/releases/download/{{ .TagName }}/kubectl-flame_{{ .TagName }}_linux_arm64.tar.gz" .TagName | indent 6 }}
+    - uri: https://github.com/adesaegher/kubectl-flame/releases/download/v1.0.1/kubectl-flame_v1.0.1_linux_arm64.tar.gz
+      sha256: 53e73e1a356cc624d88c80c0fea62e87535c1131ccd81d031461c01cad2cc85a
       bin: kubectl-flame
       files:
         - from: kubectl-flame
@@ -44,7 +47,8 @@ spec:
         matchLabels:
           os: linux
           arch: arm64
-    - {{addURIAndSha "https://github.com/adesaegher/kubectl-flame/releases/download/{{ .TagName }}/kubectl-flame_{{ .TagName }}_windows_x86_64.zip" .TagName | indent 6 }}
+    - uri: https://github.com/adesaegher/kubectl-flame/releases/download/v1.0.1/kubectl-flame_v1.0.1_windows_x86_64.zip
+      sha256: 1c7e91fce518a7adb818bd0d8cd356919dd306ac102133ce41d8cfd78ed63781
       bin: kubectl-flame.exe
       files:
         - from: kubectl-flame.exe

@@ -7,14 +7,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/kubernetes/job"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/kubernetes/job"
 	"time"
 
 	apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/wait"
 
-	"github.com/VerizonMedia/kubectl-flame/cli/cmd/data"
+	"github.com/adesaegher/kubectl-flame/cli/cmd/data"
 )
 
 type DataHandler interface {

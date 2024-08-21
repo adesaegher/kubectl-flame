@@ -3,7 +3,7 @@
 package details
 
 import (
-	"github.com/VerizonMedia/kubectl-flame/api"
+	"github.com/adesaegher/kubectl-flame/api"
 	"time"
 )
 

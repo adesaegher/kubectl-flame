@@ -1,16 +1,22 @@
 package profiler
 
 import (
+	"fmt"
 	"bytes"
-	"github.com/VerizonMedia/kubectl-flame/agent/details"
-	"github.com/VerizonMedia/kubectl-flame/agent/utils"
+	"github.com/adesaegher/kubectl-flame/agent/details"
+	"github.com/adesaegher/kubectl-flame/agent/utils"
 	"os/exec"
 	"strconv"
+	"os"
 )
 
 const (
-	phpSpyLocation        = "/app/phpspy"
-	phpOutputFileName = "/tmp/php.svg"
+	phpSpyLocation = "/app/phpspy"
+	phpSpyOutputFileName = "/tmp/phpSpy"
+	flameGraphPHPScriptLocation = "/app/FlameGraph/flamegraph.pl"
+	flameGraphPHPOutputLocation = "/tmp/flamegraph.svg"
+	phpSpyCollapseFileName = "/tmp/phpSpyCollapsed"
+	phpSpyCollapseScriptLocation = "/app/stackcollapse-phpspy.pl"
 )
 
 type PhpProfiler struct{}
@@ -25,16 +31,78 @@ func (p *PhpProfiler) Invoke(job *details.ProfilingJob) error {
 		return err
 	}
 
-	duration := strconv.Itoa(int(job.Duration.Seconds()))
-	cmd := exec.Command(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p=", pid, "-o", phpOutputFileName, "-i", duration )
+	duration := strconv.Itoa(int(job.Duration.Seconds() * 1000))
+	cmd := exec.Command(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpSpyOutputFileName, "-i", duration )
 	var out bytes.Buffer
 	var stderr bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &stderr
+
 	err = cmd.Run()
 	if err != nil {
+		fmt.Println(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpSpyOutputFileName, "-i", duration )
+		fmt.Println(err)
 		return err
 	}
 
-	return utils.PublishFlameGraph(phpOutputFileName)
+	fileInfo, err := os.Stat(phpSpyOutputFileName)
+	if err != nil {
+	  fmt.Println(err)
+	  return err
+	}
+  
+	if fileInfo.Size() == 0 {
+	  return fmt.Errorf("%s is empty! No traces ?", phpSpyOutputFileName)
+	}
+
+	err = p.stackCollapse()
+	if err != nil {
+		return fmt.Errorf("collapse of stack failed: %s", err)
+	}
+
+	err = p.generateFlameGraph()
+	if err != nil {
+		return fmt.Errorf("flamegraph generation failed: %s", err)
+	}
+	return utils.PublishFlameGraph(flameGraphPHPOutputLocation)
+}
+
+func (p *PhpProfiler) generateFlameGraph() error {
+	inputFile, err := os.Open(phpSpyCollapseFileName)
+	if err != nil {
+		return err
+	}
+	defer inputFile.Close()
+
+	outputFile, err := os.Create(flameGraphPHPOutputLocation)
+	if err != nil {
+		return err
+	}
+	defer outputFile.Close()
+
+	flameGraphCmd := exec.Command(flameGraphPHPScriptLocation)
+	flameGraphCmd.Stdin = inputFile
+	flameGraphCmd.Stdout = outputFile
+
+	return flameGraphCmd.Run()
+}
+
+func (p *PhpProfiler) stackCollapse() error {
+	inputFile, err := os.Open(phpSpyOutputFileName)
+	if err != nil {
+		return err
+	}
+	defer inputFile.Close()
+
+	outputFile, err := os.Create(phpSpyCollapseFileName)
+	if err != nil {
+		return err
+	}
+	defer outputFile.Close()
+
+	collapseCmd := exec.Command(phpSpyCollapseScriptLocation)
+	collapseCmd.Stdin = inputFile
+	collapseCmd.Stdout = outputFile
+
+	return collapseCmd.Run()
 }
