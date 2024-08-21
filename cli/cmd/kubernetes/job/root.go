@@ -23,6 +23,7 @@ var (
 	python = pythonCreator{}
 	ruby   = rubyCreator{}
 	perf   = perfCreator{}
+	php    = phpCreator{}
 )
 
 type creator interface {
@@ -39,6 +40,8 @@ func Create(targetPod *apiv1.Pod, cfg *data.FlameConfig) (string, *batchv1.Job, 
 		return python.create(targetPod, cfg)
 	case api.Ruby:
 		return ruby.create(targetPod, cfg)
+	case api.Php:
+		return php.create(targetPod, cfg)
 	case api.Node:
 		return perf.create(targetPod, cfg)
 	}

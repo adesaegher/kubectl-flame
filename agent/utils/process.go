@@ -17,6 +17,7 @@ var (
 		api.Java:   "java",
 		api.Python: "python",
 		api.Ruby:   "ruby",
+		api.Ruby:   "php",
 	}
 )
 
