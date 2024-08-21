@@ -1,6 +1,7 @@
 FROM golang:1.14-buster as agentbuild
 WORKDIR /go/src/github.com/adesaegher/kubectl-flame
 ADD . /go/src/github.com/adesaegher/kubectl-flame
+RUN pwd && ls && ls ..
 RUN go get -d -v ./...
 RUN cd agent && go build -o /go/bin/agent
 
