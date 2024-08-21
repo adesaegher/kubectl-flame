@@ -26,7 +26,8 @@ jobs:
     - name: Build BPF Docker Image
       uses: docker/build-push-action@v6
       with:
-        context: "{{defaultContext}}:agent/docker/bpf"
+        context: "{{defaultContext}}:."
+        file: agent/docker/bpf/Dockerfile
         push: true
         tags: desaegher/kubectl-flame:${{ steps.vars.outputs.tag }}-bpf
     - name: Build Python Docker Image
