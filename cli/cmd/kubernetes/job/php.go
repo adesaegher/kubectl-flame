@@ -109,6 +109,11 @@ func (p *phpCreator) create(targetPod *apiv1.Pod, cfg *data.FlameConfig) (string
 					},
 					RestartPolicy: "Never",
 					NodeName:      targetPod.Spec.NodeName,
+					Tolerations: []V1Toleration{
+						key: "app", 
+						operator: "Exists", 
+						effect: "NoExecute"
+					}
 				},
 			},
 		},
