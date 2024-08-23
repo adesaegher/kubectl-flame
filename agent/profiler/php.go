@@ -1,6 +1,7 @@
 package profiler
 
 import (
+	"fmt"
 	"bytes"
 	"github.com/adesaegher/kubectl-flame/agent/details"
 	"github.com/adesaegher/kubectl-flame/agent/utils"
@@ -33,6 +34,7 @@ func (p *PhpProfiler) Invoke(job *details.ProfilingJob) error {
 	cmd.Stderr = &stderr
 	err = cmd.Run()
 	if err != nil {
+		fmt.Println(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p=", pid, "-o", phpOutputFileName, "-i", duration )
 		fmt.Println(err)
 		return err
 	}
