@@ -4,7 +4,7 @@ ADD . /go/src/github.com/adesaegher/kubectl-flame
 RUN go get -d -v ./...
 RUN cd agent && go build -o /go/bin/agent
 
-FROM php:8.1-fpm-alpine AS phpspybuild
+FROM php:8.2-fpm-alpine AS phpspybuild
 RUN apk update && \
     apk add --no-cache \
     git \
@@ -18,7 +18,7 @@ RUN apk update && \
     php82-phpdbg
 RUN git clone https://github.com/adsr/phpspy.git && cd phpspy && make
 
-FROM php:8.1-fpm-alpine
+FROM php:8.2-fpm-alpine
 RUN apk update && \
     apk add --no-cache \
     lsof \
@@ -28,6 +28,6 @@ RUN apk update && \
     php82-phpdbg
 RUN mkdir /app
 COPY --from=agentbuild /go/bin/agent /app/agent
-COPY --from=phpspybuild /phpspy/phpspy /app/phpspy
+COPY --from=phpspybuild /var/www/html/phpspy/phpspy /app/phpspy
 
 CMD [ "/app/agent" ]
