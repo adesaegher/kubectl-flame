@@ -33,6 +33,7 @@ func (p *PhpProfiler) Invoke(job *details.ProfilingJob) error {
 	cmd.Stderr = &stderr
 	err = cmd.Run()
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 
