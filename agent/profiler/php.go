@@ -12,9 +12,11 @@ import (
 
 const (
 	phpSpyLocation = "/app/phpspy"
-	phpOutputFileName = "/tmp/php.svg"
+	phpSpyOutputFileName = "/tmp/phpSpy"
 	flameGraphPHPScriptLocation = "/app/FlameGraph/flamegraph.pl"
 	flameGraphPHPOutputLocation = "/tmp/flamegraph.svg"
+	phpSpyCollapseFileName = "/tmp/phpSpyCollapsed"
+	phpSpyCollapseScriptLocation = "/app/stackcollapse-phpspy.pl"
 )
 
 type PhpProfiler struct{}
@@ -30,16 +32,21 @@ func (p *PhpProfiler) Invoke(job *details.ProfilingJob) error {
 	}
 
 	duration := strconv.Itoa(int(job.Duration.Seconds() * 1000))
-	cmd := exec.Command(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpOutputFileName, "-i", duration )
+	cmd := exec.Command(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpSpyOutputFileName, "-i", duration )
 	var out bytes.Buffer
 	var stderr bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &stderr
 	err = cmd.Run()
 	if err != nil {
-		fmt.Println(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpOutputFileName, "-i", duration )
+		fmt.Println(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpSpyOutputFileName, "-i", duration )
 		fmt.Println(err)
 		return err
+	}
+
+	err = p.stackCollapse()
+	if err != nil {
+		return fmt.Errorf("collapse of stack failed: %s", err)
 	}
 
 	err = p.generateFlameGraph()
@@ -51,7 +58,7 @@ func (p *PhpProfiler) Invoke(job *details.ProfilingJob) error {
 }
 
 func (p *PhpProfiler) generateFlameGraph() error {
-	inputFile, err := os.Open(phpOutputFileName)
+	inputFile, err := os.Open(phpSpyCollapseScriptLocation)
 	if err != nil {
 		return err
 	}
@@ -68,4 +75,24 @@ func (p *PhpProfiler) generateFlameGraph() error {
 	flameGraphCmd.Stdout = outputFile
 
 	return flameGraphCmd.Run()
+}
+
+func (p *PhpProfiler) stackCollapse() error {
+	inputFile, err := os.Open(phpSpyOutputFileName)
+	if err != nil {
+		return err
+	}
+	defer inputFile.Close()
+
+	outputFile, err := os.Create(phpSpyCollapseFileName)
+	if err != nil {
+		return err
+	}
+	defer outputFile.Close()
+
+	collapseCmd := exec.Command(phpSpyCollapseScriptLocation)
+	collapseCmd.Stdin = inputFile
+	collapseCmd.Stdout = outputFile
+
+	return CollapseCmd.Run()
 }

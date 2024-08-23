@@ -29,6 +29,7 @@ RUN apt update && \
 RUN mkdir /app
 COPY --from=agentbuild /go/bin/agent /app/agent
 COPY --from=phpspybuild /var/www/html/phpspy/phpspy /app/phpspy
+COPY --from=phpspybuild /var/www/html/phpspy/stackcollapse-phpspy.pl /app/stackcollapse-phpspy.pl
 COPY --from=phpspybuild /var/www/html/FlameGraph /app/FlameGraph
 
 CMD [ "/app/agent" ]
