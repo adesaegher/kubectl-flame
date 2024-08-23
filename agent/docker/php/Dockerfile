@@ -18,6 +18,12 @@ RUN apk update && \
 RUN git clone https://github.com/adsr/phpspy.git && cd phpspy && make
 
 FROM python:3.8-alpine
+RUN apk update && \
+    apk add --no-cache \
+    lsof \
+    strace \
+    procps \
+    binutils
 RUN mkdir /app
 COPY --from=agentbuild /go/bin/agent /app/agent
 COPY --from=phpspybuild /phpspy/phpspy /app/phpspy
