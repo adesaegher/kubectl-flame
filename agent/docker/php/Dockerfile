@@ -17,7 +17,7 @@ RUN apk update && \
     binutils
 RUN git clone https://github.com/adsr/phpspy.git && cd phpspy && make
 
-FROM python:3.8-alpine
+FROM php:8.1-fpm-alpine
 RUN apk update && \
     apk add --no-cache \
     lsof \
