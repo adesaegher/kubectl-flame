@@ -15,7 +15,7 @@ RUN apk update && \
     strace \
     procps \
     binutils \
-    php8-phpdbg
+    php82-phpdbg-8.2.22-r0
 RUN git clone https://github.com/adsr/phpspy.git && cd phpspy && make
 
 FROM php:8.1-fpm-alpine
@@ -25,7 +25,7 @@ RUN apk update && \
     strace \
     procps \
     binutils \
-    php8-phpdbg
+    php82-phpdbg-8.2.22-r0
 RUN mkdir /app
 COPY --from=agentbuild /go/bin/agent /app/agent
 COPY --from=phpspybuild /phpspy/phpspy /app/phpspy
