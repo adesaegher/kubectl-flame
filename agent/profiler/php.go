@@ -8,14 +8,13 @@ import (
 	"os/exec"
 	"strconv"
 	"os"
-	"os/exec"
 )
 
 const (
 	phpSpyLocation = "/app/phpspy"
 	phpOutputFileName = "/tmp/php.svg"
-	flameGraphScriptLocation = "/app/FlameGraph/flamegraph.pl"
-	flameGraphOutputLocation = "/tmp/flamegraph.svg"
+	flameGraphPHPScriptLocation = "/app/FlameGraph/flamegraph.pl"
+	flameGraphPHPOutputLocation = "/tmp/flamegraph.svg"
 )
 
 type PhpProfiler struct{}
@@ -48,7 +47,7 @@ func (p *PhpProfiler) Invoke(job *details.ProfilingJob) error {
 		return fmt.Errorf("flamegraph generation failed: %s", err)
 	}
 
-	return utils.PublishFlameGraph(flameGraphOutputLocation)
+	return utils.PublishFlameGraph(flameGraphPHPOutputLocation)
 }
 
 func (p *PhpProfiler) generateFlameGraph() error {
@@ -58,13 +57,13 @@ func (p *PhpProfiler) generateFlameGraph() error {
 	}
 	defer inputFile.Close()
 
-	outputFile, err := os.Create(flameGraphOutputLocation)
+	outputFile, err := os.Create(flameGraphPHPOutputLocation)
 	if err != nil {
 		return err
 	}
 	defer outputFile.Close()
 
-	flameGraphCmd := exec.Command(flameGraphScriptLocation)
+	flameGraphCmd := exec.Command(flameGraphPHPScriptLocation)
 	flameGraphCmd.Stdin = inputFile
 	flameGraphCmd.Stdout = outputFile
 
