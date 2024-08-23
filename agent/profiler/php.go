@@ -30,7 +30,7 @@ func (p *PhpProfiler) Invoke(job *details.ProfilingJob) error {
 		return err
 	}
 
-	duration := strconv.Itoa(int(job.Duration.Millisecond()))
+	duration := strconv.Itoa(int(job.Duration.Seconds() * 1000))
 	cmd := exec.Command(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpOutputFileName, "-i", duration )
 	var out bytes.Buffer
 	var stderr bytes.Buffer
