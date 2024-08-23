@@ -27,14 +27,14 @@ func (p *PhpProfiler) Invoke(job *details.ProfilingJob) error {
 	}
 
 	duration := strconv.Itoa(int(job.Duration.Seconds()))
-	cmd := exec.Command(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpOutputFileName, "-i", fmt.Println(int(duration) * 1000) )
+	cmd := exec.Command(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpOutputFileName )
 	var out bytes.Buffer
 	var stderr bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &stderr
 	err = cmd.Run()
 	if err != nil {
-		fmt.Println(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpOutputFileName, "-i", fmt.Println(int(duration) * 1000) )
+		fmt.Println(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpOutputFileName )
 		fmt.Println(err)
 		return err
 	}
