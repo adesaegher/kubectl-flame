@@ -13,4 +13,6 @@ require (
 	k8s.io/cli-runtime v0.18.6
 	k8s.io/client-go v0.18.6
 	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e
+	k8s.io/client-go/pkg/api/v1
+	k8s.io/client-go/kubernetes
 )
