@@ -7,6 +7,8 @@ import (
 	"github.com/adesaegher/kubectl-flame/agent/utils"
 	"os/exec"
 	"strconv"
+	"os"
+	"os/exec"
 )
 
 const (
