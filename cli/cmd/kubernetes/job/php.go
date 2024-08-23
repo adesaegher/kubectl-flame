@@ -112,8 +112,8 @@ func (p *phpCreator) create(targetPod *apiv1.Pod, cfg *data.FlameConfig) (string
 					Tolerations: []V1Toleration{
 						key: "app", 
 						operator: "Exists", 
-						effect: "NoExecute"
-					}
+						effect: "NoExecute",
+					},
 				},
 			},
 		},

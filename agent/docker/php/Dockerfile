@@ -13,7 +13,8 @@ RUN apk update && \
     libc-dev \
     lsof \
     strace \
-    procps
+    procps \
+    binutils
 RUN git clone https://github.com/adsr/phpspy.git && cd phpspy && make
 
 FROM python:3.8-alpine
