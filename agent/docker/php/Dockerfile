@@ -16,6 +16,8 @@ RUN apt update && \
     procps \
     binutils
 RUN git clone https://github.com/adsr/phpspy.git && cd phpspy && make
+RUN git clone https://github.com/brendangregg/FlameGraph
+
 
 FROM php:8.1.29-fpm
 RUN apt update && \
@@ -27,5 +29,6 @@ RUN apt update && \
 RUN mkdir /app
 COPY --from=agentbuild /go/bin/agent /app/agent
 COPY --from=phpspybuild /var/www/html/phpspy/phpspy /app/phpspy
+COPY --from=phpspybuild /var/www/html/FlameGraph /app/FlameGraph
 
 CMD [ "/app/agent" ]

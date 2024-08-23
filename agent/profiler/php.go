@@ -10,8 +10,10 @@ import (
 )
 
 const (
-	phpSpyLocation        = "/app/phpspy"
+	phpSpyLocation = "/app/phpspy"
 	phpOutputFileName = "/tmp/php.svg"
+	flameGraphScriptLocation = "/app/FlameGraph/flamegraph.pl"
+	flameGraphOutputLocation = "/tmp/flamegraph.svg"
 )
 
 type PhpProfiler struct{}
@@ -26,18 +28,43 @@ func (p *PhpProfiler) Invoke(job *details.ProfilingJob) error {
 		return err
 	}
 
-	duration := strconv.Itoa(int(job.Duration.Seconds()))
-	cmd := exec.Command(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpOutputFileName, "-i", (duration + "000") )
+	duration := strconv.Itoa(int(job.Duration.Millisecond()))
+	cmd := exec.Command(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpOutputFileName, "-i", duration )
 	var out bytes.Buffer
 	var stderr bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &stderr
 	err = cmd.Run()
 	if err != nil {
-		fmt.Println(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpOutputFileName, "-i", (duration + "000") )
+		fmt.Println(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpOutputFileName, "-i", duration )
 		fmt.Println(err)
 		return err
 	}
 
-	return utils.PublishFlameGraph(phpOutputFileName)
+	err = p.generateFlameGraph()
+	if err != nil {
+		return fmt.Errorf("flamegraph generation failed: %s", err)
+	}
+
+	return utils.PublishFlameGraph(flameGraphOutputLocation)
+}
+
+func (p *PhpProfiler) generateFlameGraph() error {
+	inputFile, err := os.Open(phpOutputFileName)
+	if err != nil {
+		return err
+	}
+	defer inputFile.Close()
+
+	outputFile, err := os.Create(flameGraphOutputLocation)
+	if err != nil {
+		return err
+	}
+	defer outputFile.Close()
+
+	flameGraphCmd := exec.Command(flameGraphScriptLocation)
+	flameGraphCmd.Stdin = inputFile
+	flameGraphCmd.Stdout = outputFile
+
+	return flameGraphCmd.Run()
 }
