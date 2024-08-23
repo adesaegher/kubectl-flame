@@ -94,5 +94,5 @@ func (p *PhpProfiler) stackCollapse() error {
 	collapseCmd.Stdin = inputFile
 	collapseCmd.Stdout = outputFile
 
-	return CollapseCmd.Run()
+	return collapseCmd.Run()
 }
