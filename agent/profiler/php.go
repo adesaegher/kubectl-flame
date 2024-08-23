@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"strconv"
 	"os"
+	"time"
 )
 
 const (
@@ -53,7 +54,7 @@ func (p *PhpProfiler) Invoke(job *details.ProfilingJob) error {
 	if err != nil {
 		return fmt.Errorf("flamegraph generation failed: %s", err)
 	}
-
+	time.Sleep(300 * time.Second) 
 	return utils.PublishFlameGraph(flameGraphPHPOutputLocation)
 }
 

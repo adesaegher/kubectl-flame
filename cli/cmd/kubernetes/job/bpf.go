@@ -117,6 +117,11 @@ func (b *bpfCreator) create(targetPod *apiv1.Pod, cfg *data.FlameConfig) (string
 					},
 					RestartPolicy: "Never",
 					NodeName:      targetPod.Spec.NodeName,
+					Tolerations: []apiv1.Toleration{
+						{
+						Operator: "Exists", 
+						},
+					},
 				},
 			},
 		},

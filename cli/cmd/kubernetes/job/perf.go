@@ -109,6 +109,11 @@ func (p *perfCreator) create(targetPod *apiv1.Pod, cfg *data.FlameConfig) (strin
 					},
 					RestartPolicy: "Never",
 					NodeName:      targetPod.Spec.NodeName,
+					Tolerations: []apiv1.Toleration{
+						{
+						Operator: "Exists", 
+						},
+					},
 				},
 			},
 		},
