@@ -1,4 +1,4 @@
-FROM golang:1.18-buster as agentbuild
+FROM golang:1.22-bullseye as agentbuild
 WORKDIR /go/src/github.com/adesaegher/kubectl-flame
 ADD . /go/src/github.com/adesaegher/kubectl-flame
 RUN pwd && ls && ls ..
