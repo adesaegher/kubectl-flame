@@ -7,6 +7,8 @@ import (
 	apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/uuid"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/pkg/api/v1"
 
 	"github.com/adesaegher/kubectl-flame/cli/cmd/data"
 	"github.com/adesaegher/kubectl-flame/cli/cmd/version"
@@ -109,6 +111,11 @@ func (p *phpCreator) create(targetPod *apiv1.Pod, cfg *data.FlameConfig) (string
 					},
 					RestartPolicy: "Never",
 					NodeName:      targetPod.Spec.NodeName,
+					Tolerations: []V1Toleration{
+						key: "app", 
+						operator: "Exists", 
+						effect: "NoExecute",
+					},
 				},
 			},
 		},
