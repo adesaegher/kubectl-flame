@@ -37,11 +37,22 @@ func (p *PhpProfiler) Invoke(job *details.ProfilingJob) error {
 	var stderr bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &stderr
+	fmt.Println(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpSpyOutputFileName, "-i", duration )
+
 	err = cmd.Run()
 	if err != nil {
-		fmt.Println(phpSpyLocation, "--buffer-size=40000", "--limit=50000", "-p", pid, "-o", phpSpyOutputFileName, "-i", duration )
 		fmt.Println(err)
 		return err
+	}
+
+	fileInfo, err := os.Stat(phpSpyOutputFileName)
+	if err != nil {
+	  fmt.Println(err)
+	  return err
+	}
+  
+	if fileInfo.Size() == 0 {
+	  return fmt.Errorf("%s is empty! No traces ?", phpSpyOutputFileName)
 	}
 
 	err = p.stackCollapse()
