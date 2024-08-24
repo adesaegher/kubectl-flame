@@ -4,7 +4,7 @@ ADD . /go/src/github.com/adesaegher/kubectl-flame
 RUN go get -d -v ./...
 RUN cd agent && go build -o /go/bin/agent
 
-FROM php:8.1.29-fpm AS phpspybuild
+FROM desaegher/php-debug:8.1 AS phpspybuild
 RUN apt update && \
     apt install -y \
     git \
@@ -19,7 +19,7 @@ RUN git clone https://github.com/adsr/phpspy.git && cd phpspy && make
 RUN git clone https://github.com/brendangregg/FlameGraph
 
 
-FROM php:8.1.29-fpm
+FROM desaegher/php-debug:8.1
 RUN apt update && \
     apt install -y \
     lsof \
