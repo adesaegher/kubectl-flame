@@ -19,7 +19,7 @@ RUN git clone https://github.com/adsr/phpspy.git && cd phpspy && make
 RUN git clone https://github.com/brendangregg/FlameGraph
 
 
-FROM desaegher/php-debug:8.1
+FROM desaegher/php-debug:bullseye-8.1
 RUN apt update && \
     apt install -y \
     lsof \
