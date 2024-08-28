@@ -19,13 +19,21 @@ RUN git clone https://github.com/adsr/phpspy.git && cd phpspy && make
 RUN git clone https://github.com/brendangregg/FlameGraph
 
 
-FROM desaegher/php-debug:bullseye-8.1
+FROM 8.1.29-zts-bookworm
+RUN echo deb http://deb.debian.org/debian-debug bookworm-debug main >> /etc/apt/sources.list
 RUN apt update && \
     apt install -y \
     lsof \
     strace \ 
     procps \
-    binutils
+    binutils \
+    libapr1-dbgsym \
+    libaprutil1-dbgsym \
+    libc6-dbg \
+    libcrypt1-dbgsym \
+    libexpat1-dbgsym \
+    libpcre3-dbg \
+    libuuid1-dbgsym
 RUN mkdir /app
 COPY --from=agentbuild /go/bin/agent /app/agent
 COPY --from=phpspybuild /var/www/html/phpspy/phpspy /app/phpspy
