@@ -19,7 +19,7 @@ RUN git clone https://github.com/adsr/phpspy.git && cd phpspy && make
 RUN git clone https://github.com/brendangregg/FlameGraph
 
 
-FROM 8.1.29-zts-bookworm
+FROM php:8.1.29-zts-bookworm
 RUN echo deb http://deb.debian.org/debian-debug bookworm-debug main >> /etc/apt/sources.list
 RUN apt update && \
     apt install -y \
