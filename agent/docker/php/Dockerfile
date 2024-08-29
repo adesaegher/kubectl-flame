@@ -40,5 +40,6 @@ COPY --from=phpspybuild /var/www/html/phpspy/phpspy /app/phpspy
 COPY --from=phpspybuild /var/www/html/phpspy/stackcollapse-phpspy.pl /app/stackcollapse-phpspy.pl
 COPY --from=phpspybuild /var/www/html/FlameGraph /app/FlameGraph
 COPY --from=phpspybuild /usr/local/bin/php /usr/local/bin/php
+COPY --from=phpspybuild /usr/lib/apache2/modules/libphp.so /usr/local/lib/libphp.so
 
 CMD [ "/app/agent" ]
